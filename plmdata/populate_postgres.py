@@ -1,5 +1,5 @@
 """
-This file implements function load_to_sql,
+This file implements function populate_postgres,
 which loads the raw data from the provided
 csv files using pandas and populates tables in
 the postgres database defined in 
@@ -18,7 +18,8 @@ from dotenv import (
 from pathlib import Path
 from sqlalchemy import create_engine
 
-
+# Data manifest dictionary defines the table names
+# and gives the locations of their raw csv data.
 data_manifest = {
     "alsfrs": "./raw/user_ALSFRS_score.csv",
     "condition": "./raw/user_condition.csv",
@@ -26,7 +27,7 @@ data_manifest = {
     "symptom": "./raw/user_symptom.csv"
 }
 
-def populate_postgres():
+def populate_postgres(use_docker_host=True):
     # Populate environment variables; these
     # are also used in the docker-compose to 
     # create the postgres container
@@ -35,8 +36,12 @@ def populate_postgres():
     # Collect connection parameters from environment vars
     pg_user = os.environ["POSTGRES_USERNAME"]
     pg_password = os.environ["POSTGRES_PASSWORD"]
-    pg_host = os.environ["POSTGRES_HOST"]
     pg_database = os.environ["POSTGRES_DATABASE"]
+
+    # If we run this file from outside a docker container,
+    # we need to use "localhost". If inside, we need to 
+    # use the container name (POSTGRES_HOST).
+    pg_host = os.environ["POSTGRES_HOST"] if use_docker_host else "localhost"
 
     # Build connection string
     connection_string = (
@@ -53,7 +58,7 @@ def populate_postgres():
 
         # Read in the data
         table_df = pd.read_csv(file_path)
-        
+
         print(f"  ...loaded {len(table_df)} rows.")
         print(f"Creating SQL table.")
 
@@ -64,7 +69,7 @@ def populate_postgres():
             table_name,
             con=engine,
             if_exists="replace",
-            schema="public" # Process will silently fail if schema not included.
+            schema="public" # Operation will silently fail if schema not included.
             # Postgres uses this schema name more like a namespace than 
             # a traditional schema; default is "public".
         )

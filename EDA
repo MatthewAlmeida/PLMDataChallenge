@@ -1,0 +1,171 @@
+{
+ "metadata": {
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.3-final"
+  },
+  "orig_nbformat": 2,
+  "kernelspec": {
+   "name": "python38364bitd11d0bbfcc9343bf86e51fc58926f404",
+   "display_name": "Python 3.8.3 64-bit"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2,
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import numpy as np\n",
+    "import pandas as pd\n",
+    "\n",
+    "from pathlib import Path"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "data_dir = Path(\"./plmdata/raw\")\n",
+    "\n",
+    "alsfrs_fn = data_dir/\"user_ALSFRS_score.csv\"\n",
+    "condition_fn = data_dir/\"user_condition.csv\"\n",
+    "onset_fn = data_dir/\"user_onset_date.csv\"\n",
+    "symptom_fn = data_dir/\"user_symptom.csv\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "alsfrs = pd.read_csv(alsfrs_fn, index_col=0)\n",
+    "condition = pd.read_csv(condition_fn, index_col=0)\n",
+    "onset = pd.read_csv(onset_fn, index_col=0)\n",
+    "symptom = pd.read_csv(symptom_fn, index_col=0)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {
+    "tags": []
+   },
+   "outputs": [
+    {
+     "output_type": "stream",
+     "name": "stdout",
+     "text": "Index(['user_id', 'report_date', 'score'], dtype='object')\nIndex(['user_id', 'condition_name'], dtype='object')\nIndex(['user_id', 'first_definitive_diagnosis_date'], dtype='object')\nIndex(['user_id', 'symptom_name', 'symptom_severity_score'], dtype='object')\n"
+    }
+   ],
+   "source": [
+    "print(alsfrs.columns)\n",
+    "print(condition.columns)\n",
+    "print(onset.columns)\n",
+    "print(symptom.columns)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "als = \"amyotrophic lateral sclerosis\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "als_users = np.unique(condition[condition.condition_name == als].user_id)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "all_users = np.unique(condition.user_id)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "metadata": {},
+   "outputs": [
+    {
+     "output_type": "execute_result",
+     "data": {
+      "text/plain": "(13118, 435861)"
+     },
+     "metadata": {},
+     "execution_count": 24
+    }
+   ],
+   "source": [
+    "len(als_users), len(all_users)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "condition_als = condition[condition.condition_name == als]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 33,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "als_users = np.unique(condition_als.user_id)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 36,
+   "metadata": {},
+   "outputs": [
+    {
+     "output_type": "execute_result",
+     "data": {
+      "text/plain": "14118"
+     },
+     "metadata": {},
+     "execution_count": 36
+    }
+   ],
+   "source": [
+    "np.sum(np.isin(condition.user_id, als_users))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ]
+}
