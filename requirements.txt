@@ -1,0 +1,4 @@
+psycopg2>=2.7,<3.0
+pandas
+dash==1.11.0
+
