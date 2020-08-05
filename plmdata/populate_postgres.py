@@ -22,7 +22,7 @@ from sqlalchemy import create_engine
 # and gives the locations of their raw csv data.
 data_manifest = {
     "alsfrs": "./raw/user_ALSFRS_score.csv",
-    "condition": "./raw/user_condition.csv",
+    "condition": "./raw/user_condition_alsfrs.csv",
     "onset": "./raw/user_onset_date.csv",
     "symptom": "./raw/user_symptom.csv"
 }
