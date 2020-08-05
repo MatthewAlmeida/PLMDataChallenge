@@ -24,7 +24,7 @@ data_manifest = {
     "alsfrs": "./raw/user_ALSFRS_score.csv",
     "condition": "./raw/user_condition_alsfrs.csv",
     "onset": "./raw/user_onset_date.csv",
-    "symptom": "./raw/user_symptom.csv"
+# "symptom": "./raw/user_symptom.csv"
 }
 
 def populate_postgres(use_docker_host=True):
