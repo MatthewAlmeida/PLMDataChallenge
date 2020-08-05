@@ -79,4 +79,4 @@ def populate_postgres(use_docker_host=True):
         print(f"  ...done in {end_time-start_time:.0f}s")
 
 if __name__ == "__main__":
-    populate_postgres()
+    populate_postgres(False)
