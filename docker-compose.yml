@@ -18,10 +18,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dash
-    container_name: dash_dash
+    container_name: plmchallenge_dash
     command: python app.py
     volumes:
-      - .:/code
+      - .:/workspace
     ports:
       - "80:8080"
     depends_on:

@@ -1,4 +1,7 @@
-psycopg2>=2.7,<3.0
+psycopg2
 pandas
-dash==1.11.0
-
+dash
+dash_bootstrap_components
+dash_core_components
+dash_html_components
+python-dotenv
