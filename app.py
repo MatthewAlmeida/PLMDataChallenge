@@ -1,9 +1,31 @@
+import argparse
+
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 
 from dash.dependencies import Input, Output, State
+
+from plm_dash_components import PLMDashComponents 
+
+# --------------------
+# Handle a single command line argument to point the
+# app code to the proper database host
+
+parser = argparse.ArgumentParser(description="Launch PLM data challenge app.")
+parser.add_argument(
+    "-d",
+    "--docker",
+    action="store_true",
+    help="If launching in a docker container, pass this flag to route to database."
+)
+args =parser.parse_args()
+use_docker_host = args.docker
+
+plmdc = PLMDashComponents(use_docker_host)
+
+# --------------------
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -18,24 +40,7 @@ app.layout = dbc.Container(
 
         dbc.Row(
             [
-                dbc.Col(
-                    [
-                        dbc.Card(
-                            [
-                                dbc.CardBody(
-                                    [
-                                        html.H4("ALS Data Analysis", className="card-title"),
-                                        html.P(
-                                            "This dashboard presents the results of our analysis"
-                                            " of the users provided for the data challenge.",
-                                            className="card-text"
-                                        )
-                                    ]
-                                )
-                            ]
-                        )
-                    ]
-                ),
+                dbc.Col([plmdc.intro_card]),
                 dbc.Col(
                     [
                         dcc.Graph(
@@ -51,7 +56,12 @@ app.layout = dbc.Container(
                     ]
                 )
             ]
-        )       
+        ),
+        dbc.Row(
+            [
+                dbc.Col([plmdc.condition_card]),
+            ]
+        )
     ],
     style={"margin":"auto"}
 )
