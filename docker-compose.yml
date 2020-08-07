@@ -19,7 +19,7 @@ services:
       context: .
       dockerfile: Dockerfile.dash
     container_name: plmchallenge_dash
-    command: python app.py
+    command: python app.py -d
     volumes:
       - .:/workspace
     ports:
