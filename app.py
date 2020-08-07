@@ -1,3 +1,10 @@
+"""
+This is the main entrypoint for the dashboard. This
+file is pretty lean; most of the important building 
+of the dashboards' components happens in the
+PLMDashComponents class. 
+"""
+
 import argparse
 
 import dash
@@ -29,6 +36,9 @@ plmdc = PLMDashComponents(use_docker_host)
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
+# Layout of the dashboard happens here. This simply lays out the
+# cards defined in the PLMDashComponents class into rows and 
+# columns in the bootstrap method.
 app.layout = dbc.Container(
     fluid=True,
     children=[
@@ -40,28 +50,20 @@ app.layout = dbc.Container(
 
         dbc.Row(
             [
-                dbc.Col([plmdc.intro_card]),
                 dbc.Col(
                     [
-                        dcc.Graph(
-                            id='example-graph',
-                            figure={
-                                'data': [
-                                    {'x': [1, 2, 3], 'y': [4, 1, 2], 'type': 'bar', 'name': 'SF'},
-                                    {'x': [1, 2, 3], 'y': [2, 4, 5], 'type': 'bar', 'name': u'Montréal'},
-                                ],
-                                'layout': {'title': 'Dash Data Visualization'}
-                            }
-                        )
+                        plmdc.intro_card,
+                        plmdc.condition_card
+
+                    ]
+                ),
+                dbc.Col(
+                    [
+                        plmdc.trend_card
                     ]
                 )
             ]
         ),
-        dbc.Row(
-            [
-                dbc.Col([plmdc.condition_card]),
-            ]
-        )
     ],
     style={"margin":"auto"}
 )
