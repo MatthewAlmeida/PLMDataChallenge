@@ -110,7 +110,8 @@ class Backend(object):
         return rs
 
     def get_normalized_alsfrs_series_random_users(self, n_random_users):
-        # Get the users that are in both alsfrs and onset
+        # Get the users that are in both alsfrs and onsetusers = self.get_users_from_alsfrs_onset()
+
         users = self.get_users_from_alsfrs_onset()
 
         # select n_random_users of them
